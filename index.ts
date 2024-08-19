@@ -1,66 +1,59 @@
-//class
-class Person {
-	name: string
-	age: number
-	constructor(name: string, age: number) {
-		this.name = name
-		this.age = age
+
+// наследование 
+//static методы
+class Animal {
+	static sound() {
+		console.log('animal sound');
+	}
+	constructor(public name: string) {
+		this.name = name;
 	}
 }
-
-const yauhen = new Person('Yauhen', 31)
-
-console.log(yauhen)
-//модификаторы public, private, protected, readonly
+const dog = new Animal('dog');//dog
+Animal.sound();//animal sound
+//наследование 2 класса 
 class User {
-	public name: string//публичное свойство
-	private age: number//закрытое свойство только для данного класса
-	protected price: number //закрытое свойство только для данного класса и наследников
-	readonly color: string //закрытое свойство только для данного класса  только для чтения
-	constructor(name: string, age: number , price: number, color: string) {
-		this.name = name
-		this.age = age
-		this.price = price
-		this.color = color
-	}
-}
-const yauhen2 = new User('Yauhen', 31, 1000, 'red')
-yauhen2.price 
-yauhen2.color
-yauhen2.name
-yauhen2.age
-//default значение
-class tel {
-	color: string 
-	name: string = 'samsung'
-	price: number=128827727
-	constructor(color: string) {
-		this.color = color
-	}
-}
-const telUser = new tel("red")
-telUser
-//минимальное количество свойств
-class User1 {
-	constructor(
-		public name: string, 
-		private age: number, 
-		protected price: number, 
-		private color: string
-	) {}
-}
-//get access to private property
-class User2 {
-	private age2: number
-	constructor(
-		public name: string, 
-		protected price: number, 
-		private color: string
-	) {}
-	setAge(age: number) {	
-		this.age2 = age
-	}
-}
-const yauhen3 = new User2('Yauhen', 31, 'red')
+	private nickname: string
+	static secret = 12345
 
-yauhen3.setAge(10)//10
+	constructor(public name: string, public age: number) {
+}
+getpass(): string {
+	return `${this.name}${User.secret}`
+}
+}
+class Admin extends User {
+	name: string='admin'
+	constructor(age: number) {
+		super(name, age);
+	}
+}
+const user = new User('edson', 31)
+const admin = new Admin( 31)
+console.log(user.getpass());
+console.log(admin.getpass());
+//абстракция  абстаная класс создаеться только для наследования
+abstract class  User1 {
+	constructor(public name: string, public age: number) {
+	}
+	greet(): void {
+		console.log(this.name);
+	}
+	abstract getPass(): string
+}
+const user1 = new User1('edson', 31)
+class Admin1 extends User1 {
+	static greet() : void {
+		throw new Error('Method not implemented.');
+	}
+	name: string='admin'
+	static getPass: any;
+	constructor(age: number) {
+		super(name, age);
+	}
+	getPass(): string {
+		return `${this.name}${User.secret}`
+	}
+}
+Admin1.greet()
+Admin1.getPass()
