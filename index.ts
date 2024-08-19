@@ -1,19 +1,68 @@
-//namespace  and module  пространство и модуль
-namespace User {
-	const name = 'Yauhen'
-	const age = 31
-	function getAll(name: string, age: number) {
-		const user = console.log(name, age)
-		return user
-	}
-	export const getall =  getAll(name, age)//export потом можно его получить в шлобаны видимости 
+//interface 
+
+interface Person {
+	name: string
+	age: number
 }
-User.getall
-//все что внутри данного пространства и модуля называется пространством и модулем и вссе эти премен доступные только внцтри данного пространства и модуля
+const person: Person = {
+	name: 'Yauhen',
+	age: 30
+}
+interface food {
+	readonly name: string//can not change
+	age: number
+}
+const Person: food = {
+	name: 'Yauhen',
+	age: 30,
+}
+Person.name = 'Max'//ошибка неляя изменять readonly
 
+//если хотим расшерять обект из интерфейс потом  
+interface fruit {
+	name: string
+	age: number
+	[propName: string]: any
+}
+const fruit: fruit = {
+	name: 'Yauhen',
+	age: 30,
+	weight: 300
+}
+//интерфейс работает с классами implements т можно добовить другиз значение 
 
-//исползовать  модул  и без использования пространство
-// export const user = "Yauhen"
-// file customer.js
-//import { user } from './user'
-//console.log(user)
+interface User {	
+	name: string
+	age: number
+	getPass(): string
+}
+class Yauhen implements User {
+	name: string='Yauhen'
+	age: number=30
+	nickName: string='webDev'
+	getPass(): string {
+		return 'pass'
+	}
+}
+//separate interface
+
+interface User2 {	
+	name: string
+	age: number
+	getPass(): string
+}
+interface User3 extends User2 {
+	nickName: string
+}
+interface User4{
+	fruit: string
+}
+class Yauhen2 implements User3, User4 {
+	name: string='Yauhen'
+	age: number=30
+	nickName: string='webDev'
+	getPass(): string {
+		return 'pass'
+	}
+	fruit: string='apple'
+}
