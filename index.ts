@@ -1,59 +1,19 @@
+//namespace  and module  пространство и модуль
+namespace User {
+	const name = 'Yauhen'
+	const age = 31
+	function getAll(name: string, age: number) {
+		const user = console.log(name, age)
+		return user
+	}
+	export const getall =  getAll(name, age)//export потом можно его получить в шлобаны видимости 
+}
+User.getall
+//все что внутри данного пространства и модуля называется пространством и модулем и вссе эти премен доступные только внцтри данного пространства и модуля
 
-// наследование 
-//static методы
-class Animal {
-	static sound() {
-		console.log('animal sound');
-	}
-	constructor(public name: string) {
-		this.name = name;
-	}
-}
-const dog = new Animal('dog');//dog
-Animal.sound();//animal sound
-//наследование 2 класса 
-class User {
-	private nickname: string
-	static secret = 12345
 
-	constructor(public name: string, public age: number) {
-}
-getpass(): string {
-	return `${this.name}${User.secret}`
-}
-}
-class Admin extends User {
-	name: string='admin'
-	constructor(age: number) {
-		super(name, age);
-	}
-}
-const user = new User('edson', 31)
-const admin = new Admin( 31)
-console.log(user.getpass());
-console.log(admin.getpass());
-//абстракция  абстаная класс создаеться только для наследования
-abstract class  User1 {
-	constructor(public name: string, public age: number) {
-	}
-	greet(): void {
-		console.log(this.name);
-	}
-	abstract getPass(): string
-}
-const user1 = new User1('edson', 31)
-class Admin1 extends User1 {
-	static greet() : void {
-		throw new Error('Method not implemented.');
-	}
-	name: string='admin'
-	static getPass: any;
-	constructor(age: number) {
-		super(name, age);
-	}
-	getPass(): string {
-		return `${this.name}${User.secret}`
-	}
-}
-Admin1.greet()
-Admin1.getPass()
+//исползовать  модул  и без использования пространство
+// export const user = "Yauhen"
+// file customer.js
+//import { user } from './user'
+//console.log(user)
