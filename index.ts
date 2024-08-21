@@ -1,68 +1,52 @@
-//interface 
+//generic или обшый тип данных
+// это обозначение типов в обшей вид
+//example fur use any type
+const getter = (data: any): any => data
+getter(10) //10
+getter('test') //'test'
+getter(10).length // undefined    // Property 'length' does not exist on type '10' number
+getter('test').length // 4
+//чтобы такие ошибки не были исползуем generic
 
-interface Person {
-	name: string
-	age: number
-}
-const person: Person = {
-	name: 'Yauhen',
-	age: 30
-}
-interface food {
-	readonly name: string//can not change
-	age: number
-}
-const Person: food = {
-	name: 'Yauhen',
-	age: 30,
-}
-Person.name = 'Max'//ошибка неляя изменять readonly
+const gettto = <T>(data: T): T => data
+gettto(10).lenght //Property 'lenght' does not exist on type '10' то есть получаес сразу  ошибку с generic
+//можно с помощью дженерикой  менять типы пр вызоз
+const gettto = <T>(data: T): T => data
+gettto<number>(10).lenght //Property 'lenght' does not exist on type '10' то есть получаес сразу  ошибку с generic
 
-//если хотим расшерять обект из интерфейс потом  
-interface fruit {
-	name: string
-	age: number
-	[propName: string]: any
-}
-const fruit: fruit = {
-	name: 'Yauhen',
-	age: 30,
-	weight: 300
-}
-//интерфейс работает с классами implements т можно добовить другиз значение 
-
-interface User {	
-	name: string
-	age: number
-	getPass(): string
-}
-class Yauhen implements User {
-	name: string='Yauhen'
-	age: number=30
-	nickName: string='webDev'
-	getPass(): string {
-		return 'pass'
+// class generic
+class gettto<T> {
+	data: T
+	constructor(data: T) {
+		this.data = data
 	}
 }
-//separate interface
-
-interface User2 {	
-	name: string
-	age: number
-	getPass(): string
-}
-interface User3 extends User2 {
-	nickName: string
-}
-interface User4{
-	fruit: string
-}
-class Yauhen2 implements User3, User4 {
-	name: string='Yauhen'
-	age: number=30
-	nickName: string='webDev'
-	getPass(): string {
-		return 'pass'
+// но типы одиноковые 
+class gettto2<T> {
+	constructor(public name: T, public age: T) {
 	}
-	fruit: string='apple'
+
+	getAge(): string {
+		return `my age is ${this.name} my age ${this.age}`
+	}
 }
+const gettto3 = new gettto2('Edson', "31")
+const gettto4 = new gettto2(21, 31)
+//терерь разных типы 
+class gettto7<T,K> {
+	constructor(public name: T, public age: K) {}
+
+	getAge(): string {
+		return `my age is ${this.name} my age ${this.age}`
+	}
+}
+const gettto8 = new gettto7('Edson', 31)//теперь можно разные типы 
+//generic сделать чтобы  конретно параметр был конкретно тип 
+class gettto9<T, K extends number> {
+	constructor(public name: T, public age: K) {}
+
+	getAge(): string {
+		return `my age is ${this.name} my age ${this.age}`
+	}
+}
+const gettto10 = new gettto9('Edson', 31)
