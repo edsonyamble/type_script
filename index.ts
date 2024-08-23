@@ -1,52 +1,90 @@
-//generic или обшый тип данных
-// это обозначение типов в обшей вид
-//example fur use any type
-const getter = (data: any): any => data
-getter(10) //10
-getter('test') //'test'
-getter(10).length // undefined    // Property 'length' does not exist on type '10' number
-getter('test').length // 4
-//чтобы такие ошибки не были исползуем generic
+//decorators in typescript это возможно тайпскрипт по добовление анотации для обявленя класс и функции
+//decorator это класс  который можно применять к любому обьекту и модифицировать его
 
-const gettto = <T>(data: T): T => data
-gettto(10).lenght //Property 'lenght' does not exist on type '10' то есть получаес сразу  ошибку с generic
-//можно с помощью дженерикой  менять типы пр вызоз
-const gettto = <T>(data: T): T => data
-gettto<number>(10).lenght //Property 'lenght' does not exist on type '10' то есть получаес сразу  ошибку с generic
-
-// class generic
-class gettto<T> {
-	data: T
-	constructor(data: T) {
-		this.data = data
+class User {
+	constructor(public name: string, public age: number) {}
+	getPass() {
+		return `user ${this.name} with age ${this.age}`
 	}
 }
-// но типы одиноковые 
-class gettto2<T> {
-	constructor(public name: T, public age: T) {
-	}
-
-	getAge(): string {
-		return `my age is ${this.name} my age ${this.age}`
+//base decorators  parametre constructor
+//4 тип decorator
+//тип класс 
+const logClass = (constructor: Function,) => {
+	console.log(constructor)
+}
+//apply decorator for class
+@logClass
+class User1 {
+	constructor(public name: string, public age: number) {}
+	getPass() {
+		return `user ${this.name} with age ${this.age}`
 	}
 }
-const gettto3 = new gettto2('Edson', "31")
-const gettto4 = new gettto2(21, 31)
-//терерь разных типы 
-class gettto7<T,K> {
-	constructor(public name: T, public age: K) {}
+//тип свойство 
+const logProperty = (target: Object, propertyKey: string | symbol) => {
+	console.log(target)
+	console.log(propertyKey)
+}
+//apply decorator for property
 
-	getAge(): string {
-		return `my age is ${this.name} my age ${this.age}`
+class User2 {
+ @logProperty
+ secret:number 
+	constructor(public name: string, public age: number,secret:number) {this.secret=secret}
+	getPass() {
+		return `user ${this.name} with age ${this.age}`
 	}
 }
-const gettto8 = new gettto7('Edson', 31)//теперь можно разные типы 
-//generic сделать чтобы  конретно параметр был конкретно тип 
-class gettto9<T, K extends number> {
-	constructor(public name: T, public age: K) {}
+//тип метод
+const logMethod = (target: Object, propertyKey: string, descriptor: PropertyDescriptor) => {
+	// console.log(target)
+	console.log(propertyKey)
+	// console.log(descriptor)
+}
+//apply decorator for method
 
-	getAge(): string {
-		return `my age is ${this.name} my age ${this.age}`
+class User3 {
+	constructor(public name: string, public age: number) {}
+	@logMethod
+	public getPass(): string {
+		return `user ${this.name} with age ${this.age}`
 	}
 }
-const gettto10 = new gettto9('Edson', 31)
+//getter and setter
+const logAccessor = (target: Object, propertyKey: string, descriptor: PropertyDescriptor) => {
+	// console.log(target)
+	console.log(propertyKey)
+	// console.log(descriptor)
+}
+
+class User4 {
+	constructor(public name: string, public age: number) {}
+	@logAccessor
+	set getPass(age: number) {
+		this.age = age
+	}
+}
+//factory decorator 
+
+const logFactory = (value:any) => {//factory
+return function (target: any) {//decorator
+	console.log(target)//decorator logic
+}
+}
+//apply decorator for factory
+const enumerable = (value: boolean) => {
+	return (target: any, propertyKey: string | symbol, descriptor: PropertyDescriptor) => {
+	descriptor.enumerable = value
+	}
+	
+}
+
+class User5 {
+	constructor(public name: string, public age: number) {}
+	@enumerable(false)//apply decorator for factory 
+	public getPass(): string {
+		return `user ${this.name} with age ${this.age}`
+	}
+}
+
